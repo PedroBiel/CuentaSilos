@@ -231,8 +231,6 @@ class MyStreamlit:
                 """)
 
 
-
-
 if __name__ == '__main__':
 
     myst = MyStreamlit()
