@@ -11,7 +11,7 @@ __author__ = Pedro Biel
 __version__ = 0.0.0
 __email__ = pedro.biel@vamanholding.com
 """
-
+import pandas as pd
 # from datetime import datetime
 
 # import copy
@@ -38,18 +38,15 @@ class MyStreamlit:
 
         self.set_page_config()
         self.titulo()
-        # pedido = self.seleccion_pedidos()
-        # st.write(pedido)
-        # self.df = self.dataframe_pedidos()
-        # st.write(self.df)
-        self.df = self.dataframe_filtrada()
-        # st.write(self.df)
-        self.graficas_segun_diametro(self.df)
-        self.graficas_segun_cantidad(self.df)
-        self.graficas_segun_alturas(self.df)
-        self.graficas_segun_alturas_max(self.df)
-        self.graficas_segun_alturas_medias(self.df)
-        self.version()
+        self.df = self.file_upload()
+        if self.df is not None:
+            self.df = self.dataframe_filtrada_(self.df)
+            self.graficas_segun_diametro(self.df)
+            self.graficas_segun_cantidad(self.df)
+            self.graficas_segun_alturas(self.df)
+            self.graficas_segun_alturas_max(self.df)
+            self.graficas_segun_alturas_medias(self.df)
+            self.version()
 
     def set_page_config(self):
         """Streamlit page config."""
@@ -73,6 +70,27 @@ class MyStreamlit:
         #     """
         #     )
         st.sidebar.title('Selección de pedidos')
+
+    def file_upload(self):
+        """Carga el fichero para el estudio de los silos."""
+
+        file = st.sidebar.file_uploader(
+            'Selecciona fichero ÍNDICE_PEDIDOS.xlsx en dierctorio Z:\\01. PEDIDOS CLIENTES (Ofitec)',
+            type='xlsx'
+        )
+        if file:
+            d = pd.read_excel(file, sheet_name=['PSM19', 'PSM20', 'PSM21', 'PSM22'])
+            # st.write(d)
+            df = pd.concat(d)
+            df = df.reset_index(drop=True)
+            df.drop(['Otro'], axis=1, inplace=True)
+            df.dropna(subset=['Num_silos'], inplace=True)
+            df.drop(df[df.Num_silos == '--'].index, inplace=True)
+            df['Num_silos'] = df['Num_silos'].astype('int')
+            # st.write(df)
+            st.write('Fin prueba')
+
+            return df
 
     def seleccion_pedidos(self):
         """
@@ -135,7 +153,18 @@ class MyStreamlit:
         df = self.cnt_df_pedidos.dataframe_silos()
 
         return df
-    
+
+    @st.cache
+    def dataframe_pedidos(self, df):
+        """
+        DataFrame con los datos de los pedidos.
+        :return df: pandas DataFrame
+        """
+
+        df = self.cnt_df_pedidos.dataframe_silos_(df)
+
+        return df
+
     def dataframe_filtrada(self):
         """
         DataFrame con los datos filtrados según la selección
@@ -169,6 +198,61 @@ class MyStreamlit:
 
         st.subheader('Tabla de pedidos')
         st.write(df)
+        st.markdown('#### Estadísticas')
+        df_ = pd.DataFrame()
+        df_['Num_silos'] = df['Num_silos'].copy()
+        df_['Num_silos'] = df_['Num_silos'].astype('int')
+        df_['Diámetro'] = df['Diámetro'].copy()
+        df_['Diámetro'] = df_['Diámetro'].astype('int')
+        df_['Alturas'] = df['Alturas'].copy()
+        df_['Alturas'] = df_['Alturas'].astype('int')
+        st.write(df_.describe().T)
+
+        return df
+
+    def dataframe_filtrada_(self, df):
+        """
+        DataFrame con los datos filtrados según la selección
+        :return df: pandas DataFrame
+        """
+
+        # DataFrame filtrada por pedidos PSM.
+        seleccion = self.seleccion_pedidos()
+        df_pedidos = self.dataframe_pedidos(df)
+        df = self.cnt_df_pedidos.dataframe_silos_filtrada(seleccion, df_pedidos)
+
+        # DataFrame filtrada por clientes.
+        clientes = self.seleccion_clientes(df)
+        df = df[df.Cliente.isin(clientes)]
+        # st.write(df)
+
+        # DataFrame filtrada por modelos.
+        modelos = self.seleccon_modelos(df)
+        df = df[df.Modelo.isin(modelos)]
+
+        # DataFrame filtrada por diámetros.
+        diametros = self.seleccon_diametros(df)
+        df = df[df.Diámetro.isin(diametros)]
+
+        # DataFrame filtrada por alturas.
+        alturas = self.seleccon_alturas(df)
+        df = df[df.Alturas.isin(alturas)]
+
+        # DataFrame filtrada por tolvas.
+        tolvas = self.seleccon_tolvas(df)
+        df = df[df.Tolva.isin(tolvas)]
+
+        st.subheader('Tabla de pedidos')
+        st.write(df)
+        st.markdown('#### Estadísticas')
+        df_ = pd.DataFrame()
+        df_['Num_silos'] = df['Num_silos'].copy()
+        df_['Num_silos'] = df_['Num_silos'].astype('int')
+        df_['Diámetro'] = df['Diámetro'].copy()
+        df_['Diámetro'] = df_['Diámetro'].astype('int')
+        df_['Alturas'] = df['Alturas'].copy()
+        df_['Alturas'] = df_['Alturas'].astype('int')
+        st.write(df_.describe().T)
 
         return df
 
