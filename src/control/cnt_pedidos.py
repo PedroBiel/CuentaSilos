@@ -27,8 +27,11 @@ class CntDataFramePedidos:
         
         self.constantes = Constantes()
     
-    def dataframe_silos(self):
-        """DataFrame de los pedidos."""
+    def dataframe_silos_(self):
+        """
+        DataFrame de los pedidos.
+        Lectura de datos según datos de constantes.
+        """
            
         cwd = self.constantes.CWD
         excel = self.constantes.EXCEL
@@ -39,7 +42,14 @@ class CntDataFramePedidos:
         df2 = mda.dataframe_nuevas_columnas()
 
         return df2
-        # return df1
+
+    def dataframe_silos(self, df):
+        """DataFrame de los pedidos."""
+
+        mda = ModeloDiametroAlturas(df)
+        df1 = mda.dataframe_nuevas_columnas()
+
+        return df1
 
     def dataframe_silos_filtrada(self, filtro, df_filtrar):
         """
@@ -49,29 +59,12 @@ class CntDataFramePedidos:
         :return df: pandas DataFrame
         """
 
-        # df1, df2 = np.array_split(df_filtrar, 2)
-        # df21, df22 = np.array_split(df2, 2)
-        #
-        # if filtro == 'Todos':
-        #     df = df_filtrar
-        # elif filtro == 'Segunda mitad':
-        #     df = df2
-        # elif filtro == 'Último cuarto':
-        #     df = df22
-        # else:
-        #     df = df_filtrar[df_filtrar.Pedido.str.contains(filtro)]
-        #
-        # return df.copy()
-
         psm = PSM(filtro, df_filtrar)
         df = psm.filtra_psm()
 
         return df
 
 
-
-  
-        
 if __name__ == '__main__':
     
     print('cnt_pedidos:')
