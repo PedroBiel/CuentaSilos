@@ -11,14 +11,9 @@ __author__ = Pedro Biel
 __version__ = 0.0.0
 __email__ = pedro.biel@vamanholding.com
 """
-import pandas as pd
-# from datetime import datetime
 
-# import copy
-# import matplotlib.pyplot as plt
-# import numpy as np
-# import pandas as pd
-# import os
+
+import pandas as pd
 import streamlit as st
 
 from data.constantes import Constantes
@@ -79,6 +74,10 @@ class MyStreamlit:
             type='xlsx'
         )
         if file:
+
+            df_ = pd.DataFrame({'a': [1, 2], 'b': [3, 4]})
+            st.write(df_)
+
             d = pd.read_excel(file, sheet_name=['PSM19', 'PSM20', 'PSM21', 'PSM22'])
             # st.write(d)
             df = pd.concat(d)
