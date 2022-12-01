@@ -75,10 +75,8 @@ class MyStreamlit:
         )
         if file:
 
-            df_ = pd.DataFrame({'a': [1, 2], 'b': [3, 4]})
-            st.write(df_)
-
-            d = pd.read_excel(file, sheet_name=['PSM19', 'PSM20', 'PSM21', 'PSM22'])
+            # d = pd.read_excel(file, sheet_name=['PSM19', 'PSM20', 'PSM21', 'PSM22'])
+            d = pd.read_excel(file, sheet_name=None)
             # st.write(d)
             df = pd.concat(d)
             df = df.reset_index(drop=True)
@@ -87,7 +85,7 @@ class MyStreamlit:
             df.drop(df[df.Num_silos == '--'].index, inplace=True)
             df['Num_silos'] = df['Num_silos'].astype('int')
             # st.write(df)
-            st.write('Fin prueba')
+
 
             return df
 
@@ -160,7 +158,7 @@ class MyStreamlit:
         :return df: pandas DataFrame
         """
 
-        df = self.cnt_df_pedidos.dataframe_silos_(df)
+        df = self.cnt_df_pedidos.dataframe_silos(df)
 
         return df
 
