@@ -29,13 +29,16 @@ class CntGraficas:
     def grafica_silos_diametro(self):
         """Gráfica de barras según diámetro."""
 
-        df_grouped = self.df.groupby('Diámetro')['Num_silos'].sum()
-        fig, ax = plt.subplots(figsize=(15, 6.6))
-        ax = df_grouped.plot.bar(xlabel='Diámetro', ylabel='Cantidad de silos', color='b')
-        ax.set_title('Cantidad de silos según diámetro')
-        for p in ax.patches:
-            ax.annotate(str(p.get_height()), (p.get_x() * 1.01, p.get_height() * 1.02))
-        st.pyplot(fig)
+        try:
+            df_grouped = self.df.groupby('Diámetro')['Num_silos'].sum()
+            fig, ax = plt.subplots(figsize=(15, 6.6))
+            ax = df_grouped.plot.bar(xlabel='Diámetro', ylabel='Cantidad de silos', color='b')
+            ax.set_title('Cantidad de silos según diámetro')
+            for p in ax.patches:
+                ax.annotate(str(p.get_height()), (p.get_x() * 1.01, p.get_height() * 1.02))
+            st.pyplot(fig)
+        except Exception as e:
+            print(e)
 
     def grafica_tarta_silos_diametro(self):
         """Gráfica de tarta según diámetro."""
