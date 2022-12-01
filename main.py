@@ -304,10 +304,11 @@ class MyStreamlit:
                 
                 | Librería | Versión |
                 | --- | --- |
-                | pandas | 1.5.1 |
-                | python | 3.9.13 |
                 | matplotlib | 3.5.2 |
                 | numpy | 1.23.4 |
+                | openpyxl | 3.0.10 |
+                | pandas | 1.5.1 |
+                | python | 3.9.13 |
                 | streamlit | 1.13.0 |
                 """)
 
