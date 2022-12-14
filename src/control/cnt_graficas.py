@@ -128,7 +128,6 @@ class CntGraficas:
     def grafica_alturas_cantidad(self):
         """Gráfica de barras con la cantidad de silos por cada altura."""
 
-        st.write('grafica_alturas_cantidad')
         try:
             df_grouped = self.df.groupby('Alturas')['Num_silos'].sum()
             fig, ax = plt.subplots(figsize=(15, 6))
