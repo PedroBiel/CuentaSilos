@@ -5,7 +5,7 @@ Controlador de las gráficas de resultados
 23/11/2022
 
 __author__ = Pedro Biel
-__version__ = 0.0.0
+__version__ = 0.1.0
 __email__ = pedro.biel@vamanholding.com
 """
 
@@ -36,6 +36,8 @@ class CntGraficas:
             ax.set_title('Cantidad de silos según diámetro')
             for p in ax.patches:
                 ax.annotate(str(p.get_height()), (p.get_x() * 1.01, p.get_height() * 1.02))
+            # ax.set_xticklabels(ax.get_xticks(), rotation=0)
+            plt.xticks(rotation=0)
             st.pyplot(fig)
         except Exception as e:
             print(e)
@@ -62,6 +64,7 @@ class CntGraficas:
             ax.set_title('Silos ordenados por cantidad')
             for p in ax.patches:
                 ax.annotate(str(p.get_height()), (p.get_x() * 1.01, p.get_height() * 1.02))
+            plt.xticks(rotation=0)
             st.pyplot(fig)
         except Exception as e:
             print(e)
@@ -78,7 +81,8 @@ class CntGraficas:
             ax = df_diam_alt['Alturas'].plot.bar(xlabel='Diámetro', ylabel='Alturas', color='y')
             ax.set_title('Alturas  según diámetro')
             for p in ax.patches:
-                ax.annotate(str(p.get_height()), (p.get_x() * 1.01, p.get_height() * 1.02))
+                ax.annotate(str(p.get_height()), (p.get_x() * 1.001, p.get_height() * 1.02))
+            plt.tick_params(labelsize=5, rotation=0)
             st.pyplot(fig)
         except Exception as e:
             print(e)
@@ -97,6 +101,7 @@ class CntGraficas:
             ax.set_title('Alturas máximas según diámetro')
             for p in ax.patches:
                 ax.annotate(str(p.get_height()), (p.get_x() * 1.01, p.get_height() * 1.02))
+            plt.xticks(rotation=0)
             st.pyplot(fig)
         except Exception as e:
             print(e)
@@ -115,6 +120,23 @@ class CntGraficas:
             ax.set_title(f'Alturas medias según diámetro', fontsize=20)
             for p in ax.patches:
                 ax.annotate(str(round(p.get_height(), 1)), (p.get_x() * 1.01, p.get_height() * 1.02))
+            plt.xticks(rotation=0)
+            st.pyplot(fig)
+        except Exception as e:
+            print(e)
+
+    def grafica_alturas_cantidad(self):
+        """Gráfica de barras con la cantidad de silos por cada altura."""
+
+        st.write('grafica_alturas_cantidad')
+        try:
+            df_grouped = self.df.groupby('Alturas')['Num_silos'].sum()
+            fig, ax = plt.subplots(figsize=(15, 6))
+            ax = df_grouped.plot.bar(xlabel='Alturas', ylabel='Cantidad', color='fuchsia')
+            ax.set_title(f'Cantidad de silos según altura', fontsize=20)
+            for p in ax.patches:
+                ax.annotate(str(p.get_height()), (p.get_x() * 1.01, p.get_height() * 1.02))
+            plt.xticks(rotation=0)
             st.pyplot(fig)
         except Exception as e:
             print(e)

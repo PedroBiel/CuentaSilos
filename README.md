@@ -26,3 +26,4 @@ Una vez cargados los datos y establecido los filtros, la aplicación muestra:
 - Diagrama de barras de las alturas de los silos por diámetro.
 - Diagrama de barras de las alturas máximas por diámetro.
 - Diagrama de barras de las alturas medias por diámetro.
+- Diagrama de barras de las cantidades de silos según altura.

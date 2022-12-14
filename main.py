@@ -41,6 +41,7 @@ class MyStreamlit:
             self.graficas_segun_alturas(self.df)
             self.graficas_segun_alturas_max(self.df)
             self.graficas_segun_alturas_medias(self.df)
+            self.graficas_cantidad_segun_altura(self.df)
             self.version()
 
     def set_page_config(self):
@@ -293,14 +294,26 @@ class MyStreamlit:
         st.markdown('#### Alturas medias según diámetro')
         cnt_graficas.grafica_alturas_medias()
 
+    def graficas_cantidad_segun_altura(self, df):
+        """Dibuja las gráficas de barras del DataFrame df de cantidades según alturas."""
+
+        cnt_graficas = CntGraficas(df)
+        st.markdown('#### Cantidad de silos según alturas')
+        cnt_graficas.grafica_alturas_cantidad()
+
     def version(self):
         """Versión de las librerías."""
 
         st.subheader('Versión')
-        with st.expander('CuentaSilos 0.0.0'):
+        with st.expander('CuentaSilos 0.1.0'):
             st.markdown(
                 """
-                CuentaSilos | 0.0.0 | Primera edición
+                | Versión | Comentario |
+                | --- | --- |
+                | 0.1.0 | Se añade gráfica de cantidad de silos según altura |
+                | 0.0.0 | Primera edición |
+                
+                ---
                 
                 | Librería | Versión |
                 | --- | --- |
