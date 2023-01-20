@@ -5,10 +5,10 @@ Busca en el directorio
 Z:\01. PEDIDOS CLIENTES
 los pedidos y cuenta los silos
 
-20/10/2022
+20/01/2023
 
 __author__ = Pedro Biel
-__version__ = 0.0.0
+__version__ = 0.0.1
 __email__ = pedro.biel@vamanholding.com
 """
 
@@ -78,6 +78,7 @@ class MyStreamlit:
 
             # d = pd.read_excel(file, sheet_name=['PSM19', 'PSM20', 'PSM21', 'PSM22'])
             d = pd.read_excel(file, sheet_name=None)
+            del d['Data Validation']  # ws con validación 'sí' o 'no' para indicar pedidos activos.
             # st.write(d)
             df = pd.concat(d)
             df = df.reset_index(drop=True)
@@ -86,7 +87,6 @@ class MyStreamlit:
             df.drop(df[df.Num_silos == '--'].index, inplace=True)
             df['Num_silos'] = df['Num_silos'].astype('int')
             # st.write(df)
-
 
             return df
 
