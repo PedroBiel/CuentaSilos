@@ -8,7 +8,7 @@ los pedidos y cuenta los silos
 20/01/2023
 
 __author__ = Pedro Biel
-__version__ = 0.0.1
+__version__ = 0.0.2
 __email__ = pedro.biel@vamanholding.com
 """
 
@@ -70,19 +70,32 @@ class MyStreamlit:
     def file_upload(self):
         """Carga el fichero para el estudio de los silos."""
 
+        # file = st.sidebar.file_uploader(
+        #     'Selecciona fichero ÍNDICE_PEDIDOS.xlsx en dierctorio Z:\\01. PEDIDOS CLIENTES (Ofitec)',
+        #     type='xlsx'
+        # )
         file = st.sidebar.file_uploader(
-            'Selecciona fichero ÍNDICE_PEDIDOS.xlsx en dierctorio Z:\\01. PEDIDOS CLIENTES (Ofitec)',
-            type='xlsx'
+            'Selecciona fichero ÍNDICE PEDIDOS - AE.xlsm en dierctorio Z:\\01. PEDIDOS CLIENTES (Ofitec)',
+            type='xlsm'
         )
         if file:
 
+            # Lee varias hojas del libro Excel.
             # d = pd.read_excel(file, sheet_name=['PSM19', 'PSM20', 'PSM21', 'PSM22'])
-            d = pd.read_excel(file, sheet_name=None)
-            del d['Data Validation']  # ws con validación 'sí' o 'no' para indicar pedidos activos.
+
+            # Lee todas las hojas del libro Excel.
+            # d = pd.read_excel(file, sheet_name=None)
+            # del d['Data Validation']  # ws con validación 'sí' o 'no' para indicar pedidos activos.
             # st.write(d)
-            df = pd.concat(d)
+            # df = pd.concat(d)
+
+            # Lee la primera hoja del libro Excel formato xlsm.
+            df = pd.read_excel(file, sheet_name=0)
+
             df = df.reset_index(drop=True)
             df.drop(['Otro'], axis=1, inplace=True)
+            df.drop(['Año'], axis=1, inplace=True)
+            df.drop(['Proyecto'], axis=1, inplace=True)
             df.dropna(subset=['Num_silos'], inplace=True)
             df.drop(df[df.Num_silos == '--'].index, inplace=True)
             df['Num_silos'] = df['Num_silos'].astype('int')
@@ -310,7 +323,8 @@ class MyStreamlit:
                 """
                 | Versión | Comentario |
                 | --- | --- |
-                | 0.1.0 | Se añade gráfica de cantidad de silos según altura |
+                | 0.0.2 | Selecciona nuevo fichero de pedidos con formato xlsm |
+                | 0.0.1 | Se añade gráfica de cantidad de silos según altura |
                 | 0.0.0 | Primera edición |
                 
                 ---
