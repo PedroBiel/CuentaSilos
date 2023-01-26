@@ -2,7 +2,7 @@
 
 La aplicación lee los datos de los silos en los pedidos recogidos en la hoja Excel
 
-`Z:\01. PEDIDOS CLIENTES\ÍNDICE PEDIDOS.xlsx`
+`Z:\01. PEDIDOS CLIENTES\ÍNDICE PEDIDOS - AE.xlsm`
 
 que se encuentra en el servidor `Ofitec`.
 
