@@ -8,7 +8,7 @@ los pedidos y cuenta los silos
 20/01/2023
 
 __author__ = Pedro Biel
-__version__ = 0.0.2
+__version__ = 0.0.3
 __email__ = pedro.biel@vamanholding.com
 """
 
@@ -91,6 +91,9 @@ class MyStreamlit:
 
             # Lee la primera hoja del libro Excel formato xlsm.
             df = pd.read_excel(file, sheet_name=0)
+
+            # Elimina la fila 0 que contiene el parche temporal para el control de horas con el ÍNDICE PEDIDOS - AE
+            df = df.drop(index=0)
 
             df = df.reset_index(drop=True)
             df.drop(['Otro'], axis=1, inplace=True)
