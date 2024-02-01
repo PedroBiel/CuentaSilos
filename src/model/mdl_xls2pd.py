@@ -6,7 +6,7 @@ Modelo para convertir hojas Excel a DataFrame de pandas
 24/10/2022
 
 __author__ = Pedro Biel
-__version__ = 0.0.0
+__version__ = 0.0.1
 __email__ = pedro.biel@vamanholding.com
 """
 
@@ -44,6 +44,9 @@ class Excel2Pandas:
         df = pd.concat(d)  # Concatena los DataFrames de las keys del 
             # dicccionario.
         df = df.reset_index(drop=True)
+
+        df = df.drop(index=0)  # Se elimina la fila 0 que contiene el parche temporal para el control de horas con el ÍNDICE PEDIDOS - AE
+        df = df.reset_index(drop=True)  # Ídem.
     
         return df
     
