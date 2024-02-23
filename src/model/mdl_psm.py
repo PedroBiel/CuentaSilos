@@ -6,8 +6,10 @@ Modelo para filtrar el DataFrame de pandas según PSM
 25/10/2022
 
 __author__ = Pedro Biel
-__version__ = 0.0.0
+__version__ = 0.1.0
 __email__ = pedro.biel@vamanholding.com
+
+Nota de la versión 0.1.0: se corrige el bug para mostrar la última mitad o el último cuarto de los resultados
 """
 
 # from src.control.cnt_pedidos import CntDataFramePedidos
@@ -56,14 +58,14 @@ class PSM:
 
         df_filtrar = self.get_dataframe()
         df1, df2 = np.array_split(df_filtrar, 2)
-        df21, df22 = np.array_split(df2, 2)
+        df11, df12 = np.array_split(df1, 2)
 
         if self.filtro == 'Todos':
             df = df_filtrar
-        elif self.filtro == 'Segunda mitad':
-            df = df2
+        elif self.filtro == 'Última mitad':
+            df = df1
         elif self.filtro == 'Último cuarto':
-            df = df22
+            df = df11
         else:
             df = df_filtrar[df_filtrar.Pedido.str.contains(self.filtro)]
 
